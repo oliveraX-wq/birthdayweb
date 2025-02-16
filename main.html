@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apology Dialog</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fce4ec;
+            font-family: Arial, sans-serif;
+        }
+        .dialog-box {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            max-width: 400px;
+            height:319px;
+        }
+        img {
+            width: 100px;
+        }
+        h2 {
+            color: #d32f2f;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #yes {
+            position: fixed;
+            background-color:rgb(240, 29, 240);
+            border: 2px solid;
+            left:850px;
+            border-radius: 19px;
+            color: white;
+            top:505px;
+            width:83px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+        #yes:hover{
+            background-color: rgb(224, 135, 19);
+        }
+        #no {
+            background-color: #f44336;
+            color: white;
+            position: absolute;
+            border: 2px solid;
+            top:520px;
+            border-radius: 19px;
+            width:83px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dialog-box">
+        <img src="sry.png" alt="Sorry">
+        <h2>I'm Sorry! Please Forgive Me 🙏</h2>
+        <div class="buttons">
+            <button id="yes" onclick="closeDialog()">Yes</button>
+            <button id="no">No</button>
+        </div>
+    </div>
+
+    <script>
+        const noButton = document.getElementById("no");
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+        noButton.addEventListener("mouseover", moveNoButton);
+
+        function closeDialog() {
+            alert("Yay! You forgave me! 😍");
+            document.body.innerHTML = "<h1 style='color: green; text-align: center;'>Thank you! 🥰</h1>";
+        }
+    </script>
+</body>
+</html>
