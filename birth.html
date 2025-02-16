@@ -32,6 +32,7 @@
         #cake {
             width: 200px;
             margin-top: 20px;
+            cursor: pointer;
             position: relative;
             z-index: 1;
         }
@@ -40,9 +41,8 @@
             margin-top: 80px;
             cursor: grab;
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
+            left: 40%;
+            z-index: 1;
         }
         .message {
             position: fixed;
@@ -59,32 +59,32 @@
             opacity: 0;
             text-shadow: 2px 2px 5px #ff66b2;
             transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            z-index: 1;
         }
         #clicker {
-            width: 100px;
-            background-color: #ff3399;
+            width: 200px;
+            font-size: 36px;
+            font-weight: bold;
+            background-color: rgba(255, 0, 150, 0.8);
+            border: 0px;
             border-radius: 20px;
+            box-shadow: 0px 0px 20px rgba(255, 0, 150, 0.9);
+            opacity: 1;
+            text-shadow: 2px 2px 5px #ff66b2;
             padding: 10px;
             color: white;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: medium;
         }
         #clicker:hover {
             background-color: #cf6299;
+            cursor: pointer;
             color: antiquewhite;
-            cursor: crosshair;
         }
         
         @media (max-width: 768px) {
-            #balloon {
-                width: 80px;
-            }
-            #cake {
-                width: 150px;
-            }
-            #knife {
-                width: 80px;
-            }
+            #balloon { width: 80px; }
+            #cake { width: 150px; }
+            #knife { width: 80px; }
         }
     </style>
 </head>
@@ -99,13 +99,13 @@
         </div>
         <p>Now cut the birthday cake! 🎂</p>
         <div class="game-area">
-            <img id="cake" src="cake.png" alt="Birthday Cake">
+            <img id="cake" src="cake.png" alt="Birthday Cake" onclick="cutCake()">
             <img id="knife" src="knife.png" alt="Knife">
         </div>
     </div>
     <div id="message" class="message">🎉 Happy 18th Birthday Riya! 🎂🥳</div>
-    
-    <!-- Audio elements -->
+
+
     <audio id="popperSound" src="birthdaysound.mp3"></audio>
     <audio id="balloonSound" src="balloon_inflation.mp3"></audio>
 
@@ -115,23 +115,32 @@
             size += 20;
             document.getElementById("balloon").style.transform = `scale(${size / 100})`;
 
-            // Play balloon inflation sound
             let balloonSound = document.getElementById("balloonSound");
-            balloonSound.currentTime = 0; // Reset to start if already playing
+            balloonSound.currentTime = 0; 
             balloonSound.play();
 
             if (size >= 200) {
-                alert("🎉 BOOM! The balloon popped! Happy Birthday! 🎂🎈");
+                document.getElementById("balloon").style.display = "none";
+                
+                let popMessage = document.getElementById("message");
+                popMessage.innerText = "💥 BOOM! The Balloon Popped! 🎈";
+                popMessage.style.transform = "translate(-50%, -50%) scale(1) rotate(2520deg)";
+                popMessage.style.opacity = "1";
+
+                setTimeout(() => {
+                    let popperSound = document.getElementById("popperSound");
+                    popperSound.play();
+                }, 500);
+                
+                setTimeout(() => {
+                    popMessage.style.opacity = "0"; 
+                }, 3000);
+
                 size = 100;
-                document.getElementById("balloon").style.transform = "scale(1)";
             }
         }
-        
+
         let knife = document.getElementById("knife");
-        let cake = document.getElementById("cake");
-        let message = document.getElementById("message");
-        let popperSound = document.getElementById("popperSound");
-        
         let isDragging = false;
         let offsetX, offsetY;
         
@@ -140,40 +149,32 @@
             offsetX = e.clientX - knife.getBoundingClientRect().left;
             offsetY = e.clientY - knife.getBoundingClientRect().top;
         });
-        
+
         document.addEventListener("mousemove", (e) => {
             if (isDragging) {
                 knife.style.left = `${e.clientX - offsetX}px`;
                 knife.style.top = `${e.clientY - offsetY}px`;
             }
         });
-        
+
         document.addEventListener("mouseup", () => {
-            if (isDragging) {
-                let knifeRect = knife.getBoundingClientRect();
-                let cakeRect = cake.getBoundingClientRect();
-                if (
-                    knifeRect.right > cakeRect.left &&
-                    knifeRect.left < cakeRect.right &&
-                    knifeRect.bottom > cakeRect.top &&
-                    knifeRect.top < cakeRect.bottom
-                ) {
-                    cutCake();
-                }
-            }
             isDragging = false;
         });
-        
+
         function cutCake() {
-            cake.src = "cake.png"; 
+            let message = document.getElementById("message");
+            message.innerText = "🎉 Happy 18th Birthday Riya! 🎂🥳";
             message.style.transform = "translate(-50%, -50%) scale(1) rotate(2520deg)";
             message.style.opacity = "1";
-            message.style.transition = "transform 1s cubic-bezier(0.1, 0.57, 1, 0.9), opacity 1s ease-in-out";
-            message.style.zIndex = "1";
             
             setTimeout(() => {
+                let popperSound = document.getElementById("popperSound");
                 popperSound.play();
-            }, 1000); 
+            }, 1000);
+            
+            setTimeout(() => {
+                message.style.opacity = "0"; 
+            }, 3000);
         }
     </script>
 </body>
