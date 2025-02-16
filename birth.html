@@ -41,7 +41,6 @@
             cursor: grab;
             position: absolute;
             left: 50%;
-         
             transform: translateX(-50%);
             z-index: 2;
         }
@@ -61,22 +60,20 @@
             text-shadow: 2px 2px 5px #ff66b2;
             transition: transform 1s ease-in-out, opacity 1s ease-in-out;
         }
-            #clicker
-            {
-                width:100px;
-                background-color: #ff3399;
-                border-radius: 20px;
-                padding: 10px;
-                color: white;
-                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                font-size: medium;
-            }
-            #clicker:hover
-            {
-                background-color: #cf6299;
-                 color: antiquewhite;
-                 cursor:crosshair;
-            }
+        #clicker {
+            width: 100px;
+            background-color: #ff3399;
+            border-radius: 20px;
+            padding: 10px;
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: medium;
+        }
+        #clicker:hover {
+            background-color: #cf6299;
+            color: antiquewhite;
+            cursor: crosshair;
+        }
         
         @media (max-width: 768px) {
             #balloon {
@@ -88,7 +85,6 @@
             #knife {
                 width: 80px;
             }
-          
         }
     </style>
 </head>
@@ -99,7 +95,7 @@
         <div class="game-area">
             <img id="balloon" src="balloon.png" alt="Balloon">
             <br><br>
-            <button  id="clicker" onclick="inflateBalloon()">Blow Balloon 🎈</button>
+            <button id="clicker" onclick="inflateBalloon()">Blow Balloon 🎈</button>
         </div>
         <p>Now cut the birthday cake! 🎂</p>
         <div class="game-area">
@@ -108,13 +104,22 @@
         </div>
     </div>
     <div id="message" class="message">🎉 Happy 18th Birthday Riya! 🎂🥳</div>
-    <audio id="popperSound" src="birthdaysound.mp3"></audio>
     
+    <!-- Audio elements -->
+    <audio id="popperSound" src="birthdaysound.mp3"></audio>
+    <audio id="balloonSound" src="balloon_inflation.mp3"></audio>
+
     <script>
         let size = 100;
         function inflateBalloon() {
             size += 20;
             document.getElementById("balloon").style.transform = `scale(${size / 100})`;
+
+            // Play balloon inflation sound
+            let balloonSound = document.getElementById("balloonSound");
+            balloonSound.currentTime = 0; // Reset to start if already playing
+            balloonSound.play();
+
             if (size >= 200) {
                 alert("🎉 BOOM! The balloon popped! Happy Birthday! 🎂🎈");
                 size = 100;
@@ -164,7 +169,7 @@
             message.style.transform = "translate(-50%, -50%) scale(1) rotate(2520deg)";
             message.style.opacity = "1";
             message.style.transition = "transform 1s cubic-bezier(0.1, 0.57, 1, 0.9), opacity 1s ease-in-out";
-            message.style.zIndex="1"
+            message.style.zIndex = "1";
             
             setTimeout(() => {
                 popperSound.play();
